@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <script>
+
+      setInterval(() => {
+          //created a new XMLHttpRequest Object
+        var xhr = new XMLHttpRequest();
+        // On Changing the request State
+        xhr.onreadystatechange = function()
+        {
+          if(this.readyState==4 && this.status==200) //if state is=4(response received) and status=200 (no errors)
+          {		
+      
+            
+            var fetched = JSON.parse(xhr.responseText); // parse json file to object 
+            document.getElementById("temperature_data").innerHTML="<p>"+fetched.feeds[0].field1+" c"; // to get air quality
+      
+            /********************************* Printing of Temperature *********************************/
+            document.getElementById("humidity_data").innerHTML="<p>"+fetched.feeds[0].field2+" %";
+            /********************************* Printing of Humidity *********************************/ 	
+            document.getElementById("water_level_data").innerHTML="<p>"+fetched.feeds[0].field3+" %";
+                  /********************************* Printing of Pressure *********************************/
+            document.getElementById("water_flow_data").innerHTML="<p>"+fetched.feeds[0].field4+" %";
+
+            document.getElementById("rain_value").innerHTML="<p>"+fetched.feeds[0].field5+" %";
+      
+      
+                  var temperature = parseFloat(fetched.feeds[0].field1);
+                  var humidity = parseFloat(fetched.feeds[0].field2);
+                  var water_level = parseFloat(fetched.feeds[0].field3);
+                  var water_flow = parseFloat(fetched.feeds[0].field4);
+                  var raindrops = parseFloat(fetched.feeds[0].field5);
+      
+                  var temperature_holder = document.getElementById("temperature_holder");
+                  var temperature_status = document.getElementById("temperature_status");
+      
+                  var humidity_holder = document.getElementById("humidity_holder");
+                  var humidity_status = document.getElementById("humidity_status");
+      
+                  var water_level_holder = document.getElementById("water_level_holder");
+                  var water_level_status = document.getElementById("water_level_status");
+      
+                  var water_flow_holder = document.getElementById("water_flow_holder");
+                  var water_flow_status = document.getElementById("water_flow_status");
+
+                  var rain_holder = document.getElementById("rain_holder");
+                  var rain_status = document.getElementById("rain_status");
+                   
+                  /* temperature statuses */ 
+                  if(temperature<=0)
+                 {
+                   temperature_status.innerHTML="No Rain";
+                   temperature_holder.style.backgroundColor="#87ceeb";
+                 }	
+                 else if(temperature<=2 && temperature>=0.1)
+                 {
+                   temperature_status.innerHTML="Weak Rain";
+                   temperature_holder.style.backgroundColor="#009900";
+                 }
+                   else if(temperature<=6 && temperature>=2.1)
+                 {
+                   temperature_status.innerHTML="Moderate Rain";
+                   temperature_holder.style.backgroundColor="#8ab92d";
+                 }
+                   else if(temperature<=10 && temperature>=6.1)
+                 {
+                   temperature_status.innerHTML="Heavy Rain";
+                   temperature_holder.style.backgroundColor="#ffff1a";
+                 }
+                   else if(temperature<=18 && temperature>=10.1)
+                 {
+                   temperature_status.innerHTML="Extreme Rain";
+                   temperature_holder.style.backgroundColor="#ffa500";
+                 }
+                   else if(temperature<=30 && temperature>=18.1)
+                 {
+                   temperature_status.innerHTML="Shower";
+                   temperature_holder.style.backgroundColor="#ff0000";
+                 }
+                   else if(temperature>=30)
+                 {
+                   temperature_status.innerHTML="CloudBurst";
+                   temperature_holder.style.backgroundColor="#ca1cca";
+                 }
+                   else
+                 {
+                   temperature_status.innerHTML="------";
+                   temperature_holder.style.backgroundColor="white";
+                 }
+      
+                  /* water flow statuses */ 
+                  if(water_flow<=0.2 && water_flow>=0)
+                 {
+                   water_flow_status.innerHTML="calm";
+                   water_flow_holder.style.backgroundColor="#a6a6a6";
+                 }	
+                 else if(water_flow<=1.5 && water_flow>=0.3)
+                 {
+                   water_flow_status.innerHTML="Light Air";
+                   water_flow_holder.style.backgroundColor="#309db9";
+                 }
+                   else if(water_flow<=3.3 && water_flow>=1.6)
+                 {
+                   water_flow_status.innerHTML="Light Breeze";
+                   water_flow_holder.style.backgroundColor="#3868bf";
+                 }
+                   else if(water_flow<=5.4 && water_flow>=3.4)
+                 {
+                   water_flow_status.innerHTML="Gentle Breeze";
+                   water_flow_holder.style.backgroundColor="#565ac5";
+                 }
+                   else if(water_flow<=7.9 && water_flow>=5.5)
+                 {
+                   water_flow_status.innerHTML="Moderate Breeze";
+                   water_flow_holder.style.backgroundColor="#28628d";
+                 }
+                   else if(water_flow<=10.7 && water_flow>=8.0)
+                 {
+                   water_flow_status.innerHTML="Fresh Breeze";
+                   water_flow_holder.style.backgroundColor="#007770";
+                 }
+                   else if(water_flow<=13.8 && water_flow>=10.8)
+                 {
+                   water_flow_status.innerHTML="Strong Breeze";
+                   water_flow_holder.style.backgroundColor="#00997a";
+                 }
+                   else if(water_flow<=17.1 && water_flow>=13.9)
+                 {
+                   water_flow_status.innerHTML="Near Gale";
+                   water_flow_holder.style.backgroundColor="#00ae68";
+                 }
+                   else if(water_flow<=20.7 && water_flow>=17.2)
+                 {
+                   water_flow_status.innerHTML="Gale";
+                   water_flow_holder.style.backgroundColor="#a8c944";
+                 }
+                   else if(water_flow<=24.4 && water_flow>=20.8)
+                 {
+                   water_flow_status.innerHTML="Severe Gale";
+                   water_flow_holder.style.backgroundColor="#c8420d";
+                 }
+                   else if(water_flow<=28.4 && water_flow>=24.5)
+                 {
+                   water_flow_status.innerHTML="Strong Storm";
+                   water_flow_holder.style.backgroundColor="#d70032";
+                 }
+                   else if(water_flow<=32.6 && water_flow>=28.5)
+                 {
+                   water_flow_status.innerHTML="Voilent Storm";
+                   water_flow_holder.style.backgroundColor="#af5088";
+                 }
+                   else if(water_flow>=32.5 )
+                 {
+                   water_flow_status.innerHTML="Hurricane";
+                   water_flow_holder.style.backgroundColor="#9a3097";
+                 }
+                 else
+                 {
+                      water_flow_status.innerHTML="------";
+                      water_flow_holder.style.backgroundColor="white";
+                 }
+      
+                   /*water level Statuses */
+                 if(water_level<=39 && water_level>=0)
+                 {
+                   water_level_status.innerHTML="Dry";
+                   water_level_holder.style.backgroundColor="#af1c1c";
+                 }	
+                 else if(water_level>=40 && water_level<=60)
+                 {
+                   water_level_status.innerHTML="Optimum";
+                   water_level_holder.style.backgroundColor="#066820";
+                 }
+                 else
+                 {
+                   water_level_status.innerHTML="Moist";
+                   water_level_holder.style.backgroundColor="#061b68";
+                 }
+      
+                  /*humidity Statuses */
+                  if(humidity<=-46)
+                  {
+                    humidity_status.innerHTML="Unearthly Cold";
+                    humidity_holder.style.backgroundColor="#003489";
+            
+                  }
+                  else if(humidity>=-45 && humidity<=-31)
+                  {
+                    humidity_status.innerHTML="Extremely Cold";
+                    humidity_holder.style.backgroundColor="#807ae8";
+                  }
+                  else if(humidity>=-30 && humidity<=-16)
+                  {
+                    humidity_status.innerHTML="Severe Cold";
+                    humidity_holder.style.backgroundColor="#6d69bf";
+                  }
+                  else if(humidity>=-15 && humidity<=5)
+                  {
+                    humidity_status.innerHTML="Cold";
+                    humidity_holder.style.backgroundColor="#bab8f2";
+                  }
+                  else if(humidity<=15 &&humidity>=6)
+                  {
+                    humidity_status.innerHTML="Moderate";
+                    humidity_holder.style.backgroundColor="#69db57";
+                  }
+                  else if(humidity<=30 && humidity>=16)
+                  {
+                    humidity_status.innerHTML="Warm";
+                    humidity_holder.style.backgroundColor="#dbb757";
+                  }
+                  else if(humidity<=40 && humidity>=31)
+                  {
+                    humidity_status.innerHTML="Hot";
+                    humidity_holder.style.backgroundColor="#f95d36";
+                  }
+                  else if(humidity<=60 && humidity>=41)
+                  {
+                    humidity_status.innerHTML="Severe Hot";
+                    humidity_holder.style.backgroundColor="#ec1839";
+                  }
+                  else if(humidity<=80 && humidity>=61)
+                  {
+                    humidity_status.innerHTML="Extreme Heat";
+                    humidity_holder.style.backgroundColor="#8e1b09";
+                  }
+                  else if(humidity<=100 && humidity>=81)
+                  {
+                    humidity_status.innerHTML="Unearthly Heat";
+                    humidity_holder.style.backgroundColor="#3f0e0e";
+                    humidity_holder.style.color="white";
+                  }
+                  else
+                  {
+                    humidity_status.innerHTML="--"
+                    humidity_holder.style.backgroundColor="white";
+                  }
+
+                  /* Rain drops statuses */ 
+                  if(raindrops<=0)
+                 {
+                   rain_status.innerHTML="No Rain";
+                   rain_holder.style.backgroundColor="#87ceeb";
+                 }	
+                 else if(raindrops<=2 && raindrops>=0.1)
+                 {
+                   rain_status.innerHTML="Weak Rain";
+                   rain_holder.style.backgroundColor="#009900";
+                 }
+                   else if(raindrops<=6 && raindrops>=2.1)
+                 {
+                   rain_status.innerHTML="Moderate Rain";
+                   rain_holder.style.backgroundColor="#8ab92d";
+                 }
+                   else if(raindrops<=10 && raindrops>=6.1)
+                 {
+                   rain_status.innerHTML="Heavy Rain";
+                   rain_holder.style.backgroundColor="#ffff1a";
+                 }
+                   else if(raindrops<=18 && raindrops>=10.1)
+                 {
+                   rain_status.innerHTML="Extreme Rain";
+                   rain_holder.style.backgroundColor="#ffa500";
+                 }
+                   else if(raindrops<=30 && raindrops>=18.1)
+                 {
+                   rain_status.innerHTML="Shower";
+                   rain_holder.style.backgroundColor="#ff0000";
+                 }
+                   else if(raindrops>=30)
+                 {
+                   rain_status.innerHTML="CloudBurst";
+                   rain_holder.style.backgroundColor="#ca1cca";
+                 }
+                   else
+                 {
+                   rain_status.innerHTML="------";
+                   rain_holder.style.backgroundColor="white";
+                 }
+          }
+        }
+        /***************************** Fetch Request to thingspeak ***************************/
+        xhr.open("GET","https://api.thingspeak.com/channels/2037956/feeds.json?api_key=9OK0H8WWTZQ00KDA&results=1",true);
+        /***************************** Sending of Fetch Request to thingspeak ***************************/
+        xhr.send();
+      
+      }, 200);
+      
+          </script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <title>IoT Municipality of Loboc</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/Main.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/lightbox.css">
+
+  </head>
+
+<body>
+
+   
+  <!--header-->
+  <header class="main-header clearfix" role="header">
+    <div class="logo">
+      <a href="#"><em>LOBOC</em> River</a>
+    </div>
+    <a href="#menu" class="menu-link"><i class="fa fa-bars"></i></a>
+    <nav id="menu" class="main-nav" role="navigation">
+      <ul class="main-menu">
+        <li><a href="#section1">Home</a></li>
+        <li><a href="#section2">About</a></li>
+        <li><a href="#section4">Flood</a></li>
+        <!-- <li><a href="#section5">Video</a></li> -->
+        <li><a href="flood_graph.html" class="external">Flood Graph</a></li>
+        <li><a href="#section6">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ***** Main Banner Area Start ***** -->
+  <section class="section main-banner" id="top" data-section="section1">
+      <video autoplay muted loop id="bg-video">
+          <source src="assets/images/Loboc.mp4" type="video/mp4" />
+      </video>
+
+      <div class="video-overlay header-text">
+          <div class="caption">
+              <h6>IoT Bantay Baha</h6>
+              <h2><em>Municipality</em> of Loboc</h2>
+              <div class="main-button">
+                  <div class="scroll-to-section"><a href="#section2">Discover more</a></div>
+              </div>
+          </div>
+      </div>
+  </section>
+  <!-- ***** Main Banner Area End ***** -->
+
+
+  <section class="features">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-12">
+          <div class="features-post">
+            <div class="features-content">
+              <div class="content-show">
+                <h4><i class="fa-river"></i>Loboc River</h4>
+              </div>
+              <div class="content-hide">
+                <p>If you're visiting Bohol, you definitely should not pass up the chance to visit the Loboc River. This clean river is amongst the unfinished Loboc Bridge and the Church of San Pedro or Loboc Church, the second oldest church next to Baclayon.</p>
+                <p class="hidden-sm">If you're visiting Bohol, you definitely should not pass up the chance to visit the Loboc River. This clean river is amongst the unfinished Loboc Bridge and the Church of San Pedro or Loboc Church, the second oldest church next to Baclayon.</p>
+                <div class="scroll-to-section"><a href="#section2">More Info.</a></div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-12">
+          <div class="features-post second-features">
+            <div class="features-content">
+              <div class="content-show">
+                <h4><i class=""></i>Register</h4>
+              </div>
+              <div class="content-hide">
+                <p>Curabitur id eros vehicula, tincidunt libero eu, lobortis mi. In mollis eros a posuere imperdiet. Donec maximus elementum ex. Cras convallis ex rhoncus, laoreet libero eu, vehicula libero.</p>
+                <p class="hidden-sm">Curabitur id eros vehicula, tincidunt libero eu, lobortis mi. In mollis eros a posuere imperdiet.</p>
+                <div class="scroll-to-section"><a href="#section3">Details</a></div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-12">
+          <div class="features-post third-features">
+            <div class="features-content">
+              <div class="content-show">
+                <h4><i class=""></i>Monitoring</h4>
+              </div>
+              <div class="content-hide">
+                <p>A flood monitoring system is used to monitor a rise in water levels. The system comprises sensors that are deployed in cities or any area of interest. The sensors can be connected to either the main electricity or can be solar-powered.</p>
+                <p class="hidden-sm">A flood monitoring system is used to monitor a rise in water levels. The system comprises sensors that are deployed in cities or any area of interest. The sensors can be connected to either the main electricity or can be solar-powered.</p>
+                <div class="scroll-to-section"><a href="#section4">Read More</a></div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section why-us" data-section="section2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-heading">
+            <h2>About Loboc River</h2>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div id='tabs'>
+            <ul>
+              <li><a href='#tabs-1'>Beauty of Nature</a></li>
+              <li><a href='#tabs-2'>History</a></li>
+              <li><a href='#tabs-3'>MDRRMO</a></li>
+            </ul>
+            <section class='tabs-content'>
+              <article id='tabs-1'>
+                <div class="row">
+                  <div class="col-md-6">
+                    <img src="assets/images/beauty.jpg" alt="">
+                  </div>
+                  <div class="col-md-6">
+                    <h4>Beauty</h4>
+                    <p>Loboc River is one of the most popular tourist destinations in Bohol. Since pre-Hispanic times, the Loboc River has played an important role in the lives of the locals. Please tell your friends about us. Thank you.</p>
+                    <p>The source of the Loboc River is located in the town of Carmen, almost in the center of Bohol. From Carmen, the river takes a westerly course for a distance of about 1.5 kilometres (1 mi) then flows due south into the Mindanao or Bohol Sea.</p>
+                  </div>
+                </div>
+              </article>
+              <article id='tabs-2'>
+                <div class="row">
+                  <div class="col-md-6">
+                    <img src="assets/images/flood.jpg" alt="">
+                  </div>
+                  <div class="col-md-6">
+                    <h4>Flood History</h4>
+                    <p> The Loboc River overflowed its bank on 1847. Next record of overflowing was on November 26, 1876 inflicting much damage to properties and human lives.</p>
+                    <p>Subsequent flooding occurs in November 21, 1953, and November 19 to 20, 1964. It has been observed that a period of 8 to 9 years usually elapse before the next flooding.</p>
+                  </div>
+                </div>
+              </article>
+              <article id='tabs-3'>
+                <div class="row">
+                  <div class="col-md-6">
+                    <img src="assets/images/rescuer.jpg" alt="">
+                  </div>
+                  <div class="col-md-6">
+                    <h4>Rescue </h4>
+                    <p>flood rescue volunteers are paramedics, logisticians and mechanics – all people doing extraordinary things with skills that are invaluable for flood relief work.</p>
+                  </div>
+                </div>
+              </article>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section coming-soon" data-section="section3">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7 col-xs-12">
+          <div class="continer centerIt">
+            <div>
+              <h4>Register <em>your sim</em>for more details</h4>
+              <div class="counter">
+
+                <div class="days">
+                  <div class="value">00</div>
+                  <span>Days</span>
+                </div>
+
+                <div class="hours">
+                  <div class="value">00</div>
+                  <span>Hours</span>
+                </div>
+
+                <div class="minutes">
+                  <div class="value">00</div>
+                  <span>Minutes</span>
+                </div>
+
+                <div class="seconds">
+                  <div class="value">00</div>
+                  <span>Seconds</span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="right-content">
+            <div class="top-content">
+              <h6>Register your sim for <em>information details</em> of flood monitoring system</h6>
+            </div>
+            <form id="contact" action="" method="get">
+              <div class="row">
+                <div class="col-md-12">
+                  <fieldset>
+                    <input name="name" type="text" class="form-control" id="name" placeholder="Your Name" required="">
+                  </fieldset>
+                </div>
+                <div class="col-md-12">
+                  <fieldset>
+                    <input name="resident" type="text" class="form-control" id="resident" placeholder="Your Resident" required="">
+                  </fieldset>
+                </div>
+                <div class="col-md-12">
+                  <fieldset>
+                    <input name="phone-number" type="text" class="form-control" id="phone-number" placeholder="Your Phone Number" required="">
+                  </fieldset>
+                </div>
+                <div class="col-md-12">
+                  <fieldset>
+                    <button type="submit" id="form-submit" class="button">Get it now</button>
+                  </fieldset>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section courses" data-section="section4">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-heading">
+            <h2>Flood Monitoring</h2>
+          </div>
+        </div>
+        <div class="owl-carousel owl-theme">
+          <div class="item">
+            <img src="assets/images/iconTemperature.png" alt="Course #1">
+            <div class="down-content">
+              <h4>Temperature</h4>
+              <p id="temperature_data">10.00%</p>
+              <div class="analysis" id="temperature_holder"><h3 class="text_analysis" id="temperature_status">Normal</h3></div>
+              <!-- <div class="author-image">
+                <img src="assets/images/author-01.png" alt="Author 1">
+              </div> -->
+              <div class="text-button-pay">
+                <a href="#">View Analysis <i class="fa fa-angle-double-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="item">
+            <img src="assets/images/icon humidity.jpg" alt="Course #2">
+            <div class="down-content">
+              <h4>Humidity</h4>
+              <p id="humidity_data">10.00%</p>
+              <div class="analysis" id="humidity_holder"><h3 class="text_analysis" id="humidity_status">Normal</h3></div>
+              <!-- <div class="author-image">
+                <img src="assets/images/author-02.png" alt="Author 2">
+              </div> -->
+              <div class="text-button-pay">
+                <a href="#">View Analysis <i class="fa fa-angle-double-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="item">
+            <img src="assets/images/water level1.jpg" alt="Course #3">
+            <div class="down-content">
+              <h4>Water Level</h4>
+              <p id="water_level_data">10.00%</p>
+              <div class="analysis" id="water_level_holder"><h3 class="text_analysis" id="water_level_status">Normal</h3></div>
+              <!-- <div class="author-image">
+                <img src="assets/images/author-03.png" alt="Author 3">
+              </div> -->
+              <div class="text-button-pay">
+                <a href="#">View Analysis <i class="fa fa-angle-double-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="item">
+            <img src="assets/images/waterlevel.jpg" alt="Course #4">
+            <div class="down-content">
+              <h4>Water Flow</h4>
+              <p>Download free images and videos for your websites by visiting Unsplash, Pixabay, and Pexels.</p>
+              <div class="author-image">
+                <img src="assets/images/author-04.png" alt="Author 4">
+              </div>
+              <div class="text-button-pay">
+                <a href="#">Free <i class="fa fa-angle-double-right"></i></a>
+              </div>
+            </div>
+          </div> -->
+
+          <div class="item">
+            <img src="assets/images/iconwaterflow.webp" alt="Course #2">
+            <div class="down-content">
+              <h4>Water Flow</h4>
+              <p id="water_flow_data">10.00%</p>
+              <div class="analysis" id="water_flow_holder"><h5 class="text_analysis" id="water_flow_status">Normal</h5></div>
+              <!-- <div class="author-image">
+                <img src="assets/images/author-02.png" alt="Author 2">
+              </div> -->
+              <div class="text-button-pay">
+                <a href="#">View Analysis <i class="fa fa-angle-double-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="item">
+            <img src="assets/images/iconRaindrops.jpg" alt="">
+            <div class="down-content">
+              <h4>Raindrop</h4>
+              <p id="rain_value">10.00%</p>
+              <div class="analysis" id="rain_older"><h3 class="text_analysis" id="rain_status">Normal</h3></div>
+              <!-- <div class="author-image">
+                <img src="assets/images/author-05.png" alt="">
+              </div> -->
+              <div class="text-button-pay">
+                <a href="#">View Analysis <i class="fa fa-angle-double-right"></i></a>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+  <section class="section video" data-section="section5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 align-self-center">
+          <div class="left-content">
+            <span>our presentation is for you</span>
+            <h4>Watch the video to learn more <em>about flood disaster preperdness</em></h4>
+            <p>Floods are the most frequent type of natural disaster and occur when an overflow of water submerges land that is usually dry. 
+            <br><br>Being prepared and taking mitigation measures, such as building away from floodplains and elevating homes, can reduce the risk of damage and injuries in a flood. </p>
+            <div class="main-button"><a rel="nofollow" href="https://web.facebook.com/christine.m.digal" target="_parent">External URL</a></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <article class="video-item">
+            <div class="video-caption">
+              <h4>Choose to be wise</h4>
+            </div>
+            <figure>
+              <a href="https://www.youtube.com/watch?v=_VQyQTqJkVI" class="play"><img src="assets/images/main-thumb.png"></a>
+            </figure>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact" data-section="section6">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-heading">
+            <h2>Let’s Keep In Touch</h2>
+          </div>
+        </div>     
+        <div class="col-md-6">
+        
+        <!-- Do you need a working HTML contact-form script?
+                	
+                    Please visit https://templatemo.com/contact page -->
+                    
+          <form id="contact" action="" method="post">
+            <div class="row">
+              <div class="col-md-6">
+                  <fieldset>
+                    <input name="name" type="text" class="form-control" id="name" placeholder="Your Name" required="">
+                  </fieldset>
+                </div>
+                <div class="col-md-6">
+                  <fieldset>
+                    <input name="email" type="text" class="form-control" id="email" placeholder="Your Email" required="">
+                  </fieldset>
+                </div>
+              <div class="col-md-12">
+                <fieldset>
+                  <textarea name="message" rows="6" class="form-control" id="message" placeholder="Your message..." required=""></textarea>
+                </fieldset>
+              </div>
+              <div class="col-md-12">
+                <fieldset>
+                  <button type="submit" id="form-submit" class="button">Send Message Now</button>
+                </fieldset>      
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <div id="map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3073.0657139240006!2d124.03035419999999!3d9.6361796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33aa4450909d7e09%3A0x877bee7ee633e2e5!2sLoboc%20Jumbo%20Bridge%2C%20Loboc%2C%20Bohol!5e1!3m2!1sen!2sph!4v1676734849173!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p><i class="fa fa-copyright"></i> Copyright 2023 Bantay-baha  
+          
+           | Design:  <a href="#" rel="sponsored" target="_parent" >IoT</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/isotope.min.js"></script>
+    <script src="assets/js/owl-carousel.js"></script>
+    <script src="assets/js/lightbox.js"></script>
+    <script src="assets/js/tabs.js"></script>
+    <script src="assets/js/video.js"></script>
+    <script src="assets/js/slick-slider.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .scroll-to-section').on('click', 'a', function (e) {
+          if($(e.target).hasClass('external')) {
+            return;
+          }
+          e.preventDefault();
+          $('#menu').removeClass('active');
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+    </script>
+</body>
+</html>
