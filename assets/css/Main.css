@@ -165,12 +165,12 @@ a.menu-link { display: none; }
  
 }
 
-/* @media screen and (max-width: 600px) {
+@media screen and (max-width: 600px) {
   .main-header {
     width: 20px;
   }
  
-} */
+}
 
 .main-header {
     background-color: rgba(22,34,57,0.95);
