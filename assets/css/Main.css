@@ -283,6 +283,13 @@ a.menu-link { display: none; }
     border: none;
 }
 
+/* .map{
+  width: 450px;
+  height: 450px;
+  border: 2px solid white;
+  margin: auto;
+} */
+
 .main-nav li:hover a,
 .main-nav li.active a {
     border: 2px solid #f5a425;
