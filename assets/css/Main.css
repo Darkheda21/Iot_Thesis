@@ -161,16 +161,27 @@ a.menu-link { display: none; }
   .main-menu li {
       margin-left: 5px!important;
   }
+
+ 
 }
 
-.main-header {
+/* @media screen and (max-width: 600px) {
+  .main-header {
+    width: 20px;
+  }
+ 
+} */
+
+/* .main-header {
     background-color: rgba(22,34,57,0.95);
     height: 80px;
     position: fixed;
     z-index: 12;
     width: 100%;
     top: 0;
-}
+} */
+
+
 
 .main-header .logo {
     float: left;
@@ -320,7 +331,7 @@ a.menu-link { display: none; }
 .main-banner .caption {
   text-align: center;
   position: absolute;
-  width: 80%;
+  width: 100%;
   left: 50%;
   top: 50%;
   transform: translate(-50%,-50%);
