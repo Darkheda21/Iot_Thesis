@@ -172,14 +172,14 @@ a.menu-link { display: none; }
  
 } */
 
-/* .main-header {
+.main-header {
     background-color: rgba(22,34,57,0.95);
     height: 80px;
     position: fixed;
     z-index: 12;
     width: 100%;
     top: 0;
-} */
+}
 
 
 
@@ -384,6 +384,8 @@ a.menu-link { display: none; }
   }
 
 }
+
+
 
 
 /* Features */
