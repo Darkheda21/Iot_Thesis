@@ -610,6 +610,7 @@ button:hover { cursor: pointer; }
   .tm-icon-inner { padding: 30px; }
 }
 
+
 @media (min-width: 1240px) {
   .tm-section-1-r { max-height: 700px; }
 }
