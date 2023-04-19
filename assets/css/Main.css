@@ -882,17 +882,6 @@ section.courses .item .down-content img {
     display: inline-block;
 }
 
-section.courses .item .down-content .text-button-pay {
-    float: right;
-    display: inline-block;
-    margin-bottom: -30px;
-}
-
-section.courses .item .down-content .text-button-pay a {
-    color: #050505;
-    font-size: 20px;
-}
-
 section.courses .item .down-content .text-button-free {
     float: right;
     display: inline-block;
