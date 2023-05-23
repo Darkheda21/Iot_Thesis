@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <title>IoT Municipality of Loboc</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/Main.css">
+    <link href="assets/css/Floodgrph.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/lightbox.css">
+
+
+    <script>
+
+      setInterval(() => {
+          //created a new XMLHttpRequest Object
+        var xhr = new XMLHttpRequest();
+        // On Changing the request State
+        xhr.onreadystatechange = function()
+        {
+          if(this.readyState==4 && this.status==200) //if state is=4(response received) and status=200 (no errors)
+          {		
+      
+            
+            var fetched = JSON.parse(xhr.responseText); // parse json file to object 
+            document.getElementById("temperature_data").innerHTML="<p>"+fetched.feeds[0].field1+" c"; // to get air quality
+      
+            /********************************* Printing of Temperature *********************************/
+            document.getElementById("humidity_data").innerHTML="<p>"+fetched.feeds[0].field2+" %";
+            /********************************* Printing of Humidity *********************************/ 	
+            document.getElementById("water_level_data").innerHTML="<p>"+fetched.feeds[0].field3+" %";
+                  /********************************* Printing of Pressure *********************************/
+            document.getElementById("water_flow_data").innerHTML="<p>"+fetched.feeds[0].field4+" %";
+
+            document.getElementById("rain_value").innerHTML="<p>"+fetched.feeds[0].field5+" %";
+      
+      
+                  var temperature = parseFloat(fetched.feeds[0].field1);
+                  var humidity = parseFloat(fetched.feeds[0].field2);
+                  var water_level = parseFloat(fetched.feeds[0].field3);
+                  var water_flow = parseFloat(fetched.feeds[0].field4);
+                  var raindrops = parseFloat(fetched.feeds[0].field5);
+      
+                  var temperature_holder = document.getElementById("temperature_holder");
+                  var temperature_status = document.getElementById("temperature_status");
+      
+                  var humidity_holder = document.getElementById("humidity_holder");
+                  var humidity_status = document.getElementById("humidity_status");
+      
+                  var water_level_holder = document.getElementById("water_level_holder");
+                  var water_level_status = document.getElementById("water_level_status");
+      
+                  var water_flow_holder = document.getElementById("water_flow_holder");
+                  var water_flow_status = document.getElementById("water_flow_status");
+
+                  var rain_holder = document.getElementById("rain_holder");
+                  var rain_status = document.getElementById("rain_status");
+                   
+                  /* temperature statuses */ 
+                  if(temperature<=0)
+                 {
+                   temperature_status.innerHTML="No Rain";
+                   temperature_holder.style.backgroundColor="#87ceeb";
+                 }	
+                 else if(temperature<=2 && temperature>=0.1)
+                 {
+                   temperature_status.innerHTML="Weak Rain";
+                   temperature_holder.style.backgroundColor="#009900";
+                 }
+                   else if(temperature<=6 && temperature>=2.1)
+                 {
+                   temperature_status.innerHTML="Moderate Rain";
+                   temperature_holder.style.backgroundColor="#8ab92d";
+                 }
+                   else if(temperature<=10 && temperature>=6.1)
+                 {
+                   temperature_status.innerHTML="Heavy Rain";
+                   temperature_holder.style.backgroundColor="#ffff1a";
+                 }
+                   else if(temperature<=18 && temperature>=10.1)
+                 {
+                   temperature_status.innerHTML="Extreme Rain";
+                   temperature_holder.style.backgroundColor="#ffa500";
+                 }
+                   else if(temperature<=30 && temperature>=18.1)
+                 {
+                   temperature_status.innerHTML="Shower";
+                   temperature_holder.style.backgroundColor="#ff0000";
+                 }
+                   else if(temperature>=30)
+                 {
+                   temperature_status.innerHTML="CloudBurst";
+                   temperature_holder.style.backgroundColor="#ca1cca";
+                 }
+                   else
+                 {
+                   temperature_status.innerHTML="------";
+                   temperature_holder.style.backgroundColor="white";
+                 }
+      
+                  /* water flow statuses */ 
+                  if(water_flow<=0.2 && water_flow>=0)
+                 {
+                   water_flow_status.innerHTML="calm";
+                   water_flow_holder.style.backgroundColor="#a6a6a6";
+                 }	
+                 else if(water_flow<=1.5 && water_flow>=0.3)
+                 {
+                   water_flow_status.innerHTML="Light Air";
+                   water_flow_holder.style.backgroundColor="#309db9";
+                 }
+                   else if(water_flow<=3.3 && water_flow>=1.6)
+                 {
+                   water_flow_status.innerHTML="Light Breeze";
+                   water_flow_holder.style.backgroundColor="#3868bf";
+                 }
+                   else if(water_flow<=5.4 && water_flow>=3.4)
+                 {
+                   water_flow_status.innerHTML="Gentle Breeze";
+                   water_flow_holder.style.backgroundColor="#565ac5";
+                 }
+                   else if(water_flow<=7.9 && water_flow>=5.5)
+                 {
+                   water_flow_status.innerHTML="Moderate Breeze";
+                   water_flow_holder.style.backgroundColor="#28628d";
+                 }
+                   else if(water_flow<=10.7 && water_flow>=8.0)
+                 {
+                   water_flow_status.innerHTML="Fresh Breeze";
+                   water_flow_holder.style.backgroundColor="#007770";
+                 }
+                   else if(water_flow<=13.8 && water_flow>=10.8)
+                 {
+                   water_flow_status.innerHTML="Strong Breeze";
+                   water_flow_holder.style.backgroundColor="#00997a";
+                 }
+                   else if(water_flow<=17.1 && water_flow>=13.9)
+                 {
+                   water_flow_status.innerHTML="Near Gale";
+                   water_flow_holder.style.backgroundColor="#00ae68";
+                 }
+                   else if(water_flow<=20.7 && water_flow>=17.2)
+                 {
+                   water_flow_status.innerHTML="Gale";
+                   water_flow_holder.style.backgroundColor="#a8c944";
+                 }
+                   else if(water_flow<=24.4 && water_flow>=20.8)
+                 {
+                   water_flow_status.innerHTML="Severe Gale";
+                   water_flow_holder.style.backgroundColor="#c8420d";
+                 }
+                   else if(water_flow<=28.4 && water_flow>=24.5)
+                 {
+                   water_flow_status.innerHTML="Strong Storm";
+                   water_flow_holder.style.backgroundColor="#d70032";
+                 }
+                   else if(water_flow<=32.6 && water_flow>=28.5)
+                 {
+                   water_flow_status.innerHTML="Voilent Storm";
+                   water_flow_holder.style.backgroundColor="#af5088";
+                 }
+                   else if(water_flow>=32.5 )
+                 {
+                   water_flow_status.innerHTML="Hurricane";
+                   water_flow_holder.style.backgroundColor="#9a3097";
+                 }
+                 else
+                 {
+                      water_flow_status.innerHTML="------";
+                      water_flow_holder.style.backgroundColor="white";
+                 }
+      
+                   /*water level Statuses */
+                 if(water_level<=39 && water_level>=0)
+                 {
+                   water_level_status.innerHTML="Dry";
+                   water_level_holder.style.backgroundColor="#af1c1c";
+                  //  <?php
+                  // require('db.php');
+                  // // Replace with your own values
+                  // $gateway_url = 'http://192.168.234.53:8080';
+                  // $username = 'admin';
+                  // $password = 'admin';
+
+                  // // Query the database to get the phone numbers
+                  // $sql = "SELECT phone_number FROM contact";
+                  // $result = mysqli_query($con, $sql);
+
+                  // // Loop through the phone numbers and send the SMS messages
+                  // while ($row = mysqli_fetch_assoc($result)) {
+                  //     $phone_number = $row['phone_number'];
+                  //     $message = 'Hello, the water level';
+
+                  //     // Set up the curl request
+                  //     $ch = curl_init();
+                  //     curl_setopt($ch, CURLOPT_URL, "{$gateway_url}/v1/sms/");
+                  //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                  //     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                  //     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array(
+                  //         'phone' => $phone_number,
+                  //         'message' => $message,
+                  //     )));
+                  //     curl_setopt($ch, CURLOPT_USERPWD, "{$username}:{$password}");
+
+                  //     // Execute the curl request
+                  //     $response = curl_exec($ch);
+
+                  //     // Check for errors
+                  //     if (curl_errno($ch)) {
+                  //         echo 'Error: ' . curl_error($ch);
+                  //     } else {
+                  //         echo "SMS sent to {$phone_number} successfully.<br>";
+                  //     }
+
+                  //     // Clean up
+                  //     curl_close($ch);
+                  // }
+
+                  // // Close the database connection
+                  // mysqli_close($con);
+                  // ?>
+
+                 }	
+                 else if(water_level>=40 && water_level<=60)
+                 {
+                   water_level_status.innerHTML="Optimum";
+                   water_level_holder.style.backgroundColor="#066820";
+                  //  <?php
+                  // require('db.php');
+                  // // Replace with your own values
+                  // $gateway_url = 'http://192.168.234.53:8080';
+                  // $username = 'admin';
+                  // $password = 'admin';
+
+                  // // Query the database to get the phone numbers
+                  // $sql = "SELECT phone_number FROM contact";
+                  // $result = mysqli_query($con, $sql);
+
+                  // // Loop through the phone numbers and send the SMS messages
+                  // while ($row = mysqli_fetch_assoc($result)) {
+                  //     $phone_number = $row['phone_number'];
+                  //     $message = 'Hello, this is level';
+
+                  //     // Set up the curl request
+                  //     $ch = curl_init();
+                  //     curl_setopt($ch, CURLOPT_URL, "{$gateway_url}/v1/sms/");
+                  //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                  //     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                  //     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array(
+                  //         'phone' => $phone_number,
+                  //         'message' => $message,
+                  //     )));
+                  //     curl_setopt($ch, CURLOPT_USERPWD, "{$username}:{$password}");
+
+                  //     // Execute the curl request
+                  //     $response = curl_exec($ch);
+
+                  //     // Check for errors
+                  //     if (curl_errno($ch)) {
+                  //         echo 'Error: ' . curl_error($ch);
+                  //     } else {
+                  //         echo "SMS sent to {$phone_number} successfully.<br>";
+                  //     }
+
+                  //     // Clean up
+                  //     curl_close($ch);
+                  // }
+
+                  // // Close the database connection
+                  // mysqli_close($con);
+                  // ?>
+
+                 }
+                 else
+                 {
+                   water_level_status.innerHTML="Moist";
+                   water_level_holder.style.backgroundColor="#061b68";
+                  //  <?php
+                  // require('db.php');
+                  // // Replace with your own values
+                  // $gateway_url = 'http://192.168.234.53:8080';
+                  // $username = 'admin';
+                  // $password = 'admin';
+
+                  // // Query the database to get the phone numbers
+                  // $sql = "SELECT phone_number FROM contact";
+                  // $result = mysqli_query($con, $sql);
+
+                  // // Loop through the phone numbers and send the SMS messages
+                  // while ($row = mysqli_fetch_assoc($result)) {
+                  //     $phone_number = $row['phone_number'];
+                  //     $message = 'Hello, this is a test message level';
+
+                  //     // Set up the curl request
+                  //     $ch = curl_init();
+                  //     curl_setopt($ch, CURLOPT_URL, "{$gateway_url}/v1/sms/");
+                  //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                  //     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                  //     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array(
+                  //         'phone' => $phone_number,
+                  //         'message' => $message,
+                  //     )));
+                  //     curl_setopt($ch, CURLOPT_USERPWD, "{$username}:{$password}");
+
+                  //     // Execute the curl request
+                  //     $response = curl_exec($ch);
+
+                  //     // Check for errors
+                  //     if (curl_errno($ch)) {
+                  //         echo 'Error: ' . curl_error($ch);
+                  //     } else {
+                  //         echo "SMS sent to {$phone_number} successfully.<br>";
+                  //     }
+
+                  //     // Clean up
+                  //     curl_close($ch);
+                  // }
+
+                  // // Close the database connection
+                  // mysqli_close($con);
+                  // ?>
+
+                 }
+      
+                  /*humidity Statuses */
+                  if(humidity<=-46)
+                  {
+                    humidity_status.innerHTML="Unearthly Cold";
+                    humidity_holder.style.backgroundColor="#003489";
+            
+                  }
+                  else if(humidity>=-45 && humidity<=-31)
+                  {
+                    humidity_status.innerHTML="Extremely Cold";
+                    humidity_holder.style.backgroundColor="#807ae8";
+                  }
+                  else if(humidity>=-30 && humidity<=-16)
+                  {
+                    humidity_status.innerHTML="Severe Cold";
+                    humidity_holder.style.backgroundColor="#6d69bf";
+                  }
+                  else if(humidity>=-15 && humidity<=5)
+                  {
+                    humidity_status.innerHTML="Cold";
+                    humidity_holder.style.backgroundColor="#bab8f2";
+                  }
+                  else if(humidity<=15 &&humidity>=6)
+                  {
+                    humidity_status.innerHTML="Moderate";
+                    humidity_holder.style.backgroundColor="#69db57";
+                  }
+                  else if(humidity<=30 && humidity>=16)
+                  {
+                    humidity_status.innerHTML="Warm";
+                    humidity_holder.style.backgroundColor="#dbb757";
+                  }
+                  else if(humidity<=40 && humidity>=31)
+                  {
+                    humidity_status.innerHTML="Hot";
+                    humidity_holder.style.backgroundColor="#f95d36";
+                  }
+                  else if(humidity<=60 && humidity>=41)
+                  {
+                    humidity_status.innerHTML="Severe Hot";
+                    humidity_holder.style.backgroundColor="#ec1839";
+                  }
+                  else if(humidity<=80 && humidity>=61)
+                  {
+                    humidity_status.innerHTML="Extreme Heat";
+                    humidity_holder.style.backgroundColor="#8e1b09";
+                  }
+                  else if(humidity<=100 && humidity>=81)
+                  {
+                    humidity_status.innerHTML="Unearthly Heat";
+                    humidity_holder.style.backgroundColor="#3f0e0e";
+                    humidity_holder.style.color="white";
+                  }
+                  else
+                  {
+                    humidity_status.innerHTML="--"
+                    humidity_holder.style.backgroundColor="white";
+                  }
+
+                  /* Rain drops statuses */ 
+                  if(raindrops<=0)
+                 {
+                   rain_status.innerHTML="No Rain";
+                   rain_holder.style.backgroundColor="#87ceeb";
+                 }	
+                 else if(raindrops<=10 && raindrops>=0.1)
+                 {
+                   rain_status.innerHTML="Weak Rain";
+                   rain_holder.style.backgroundColor="#009900";
+                 }
+                   else if(raindrops<=20 && raindrops>=10.1)
+                 {
+                   rain_status.innerHTML="Moderate Rain";
+                   rain_holder.style.backgroundColor="#8ab92d";
+                 }
+                   else if(raindrops<=35 && raindrops>=20.1)
+                 {
+                   rain_status.innerHTML="Heavy Rain";
+                   rain_holder.style.backgroundColor="#ffff1a";
+                 }
+                   else if(raindrops<=65 && raindrops>=35.1)
+                 {
+                   rain_status.innerHTML="Extreme Rain";
+                   rain_holder.style.backgroundColor="#ffa500";
+                 }
+                   else if(raindrops<=100 && raindrops>=65.1)
+                 {
+                   rain_status.innerHTML="Major Rain";
+                   rain_holder.style.backgroundColor="#ff0000";
+                 }
+                   else if(raindrops>=100)
+                 {
+                   rain_status.innerHTML="CloudBurst";
+                   rain_holder.style.backgroundColor="#ca1cca";
+                 }
+                   else
+                 {
+                   rain_status.innerHTML="------";
+                   rain_holder.style.backgroundColor="white";
+                 }
+          }
+        }
+        /***************************** Fetch Request to thingspeak ***************************/
+        xhr.open("GET","https://api.thingspeak.com/channels/2037956/feeds.json?api_key=9OK0H8WWTZQ00KDA&results=1",true);
+        /***************************** Sending of Fetch Request to thingspeak ***************************/
+        xhr.send();
+      
+      }, 200);
+      
+          </script>
+
+  </head>
+
+<body>
+  <header class="main-header clearfix" role="header">
+    <div class="logo">
+      <a href="#"><em>LOBOC</em> River</a>
+    </div>
+    <a href="#menu" class="menu-link"><i class="fa fa-bars"></i></a>
+    <nav id="menu" class="main-nav" role="navigation">
+      <ul class="main-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#services">Flood Graph</a></li>
+        <li><a href="Sim_Register.php">Sim Register</a></li>
+        <li><a href="login.php">Log In</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ***** Main Banner Area Start ***** -->
+  <section class="section main-banner" id="top" data-section="section1">
+      <video autoplay muted loop id="bg-video">
+          <source src="assets/images/loboc-river.mp4" type="video/mp4" />
+      </video>
+
+      <div class="video-overlay header-text">
+          <div class="caption">
+              <h6>IoT Bantay Baha</h6>
+              <h2><em>Municipality</em> of Loboc</h2>
+              <div class="main-button">
+                  <div class="scroll-to-section"><a href="">Discover more</a></div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <section class="tm-mb-1 tm-row tm-services-row" id="services">
+    <div class="tm-section-2-l">
+        <article class="tm-bg-color-6 tm-box-pad tm-mb-1">
+            <h2 class="tm-mb-2">Temperature Graph</h2>
+            <div class="iframe">
+            <iframe width="250" height="260" src="https://thingspeak.com/channels/2037956/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+             </div>
+        </article>
+    </div>
+    <div class="tm-section-2-r">
+        <img src="assets/images/temp1.jpg" alt="Services image" class="tm-img-responsive" style="width: 810px; height: 395px;">
+    </div>
+    </section>
+    
+    <section class="tm-mb-1 tm-row tm-services-row" id="">
+        <div class="tm-section-2-r">
+            <img src="assets/images/HUm1.webp" alt="Services image" class="tm-img-responsive" style="width: 810px; height: 395px;">
+        </div>
+        <div class="tm-section-2-l">
+            <article class="tm-bg-color-6 tm-box-pad tm-mb-1">
+                <h2 class="tm-mb-2">Humidity Graph</h2>
+                <iframe width="250" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/2037956/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+            </article>
+          </div>
+        </div>
+        </section>
+
+        <section class="tm-mb-1 tm-row tm-services-row" id="">
+            <div class="tm-section-2-l">
+                <article class="tm-bg-color-6 tm-box-pad tm-mb-1">
+                    <h2 class="tm-mb-2">Water Flow Graph</h2>
+                    <iframe width="250" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/2037956/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+                </article>
+              </div>
+            </div>
+            <div class="tm-section-2-r">
+                <img src="assets/images/flow1.webp" alt="Services image" class="tm-img-responsive"style="width: 810px; height: 395px;">
+            </div>
+            </section>
+
+            <section class="tm-mb-1 tm-row tm-services-row" id="">
+                <div class="tm-section-2-r">
+                    <img src="assets/images/level1.jpg" alt="Services image" class="tm-img-responsive" style="width: 810px; height: 395px;">
+                </div>
+                <div class="tm-section-2-l">
+                    <article class="tm-bg-color-6 tm-box-pad tm-mb-1">
+                        <h2 class="tm-mb-2">Water Level Graph</h2>
+                        <iframe width="250" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/2037956/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+                    </article>
+                  </div>
+                </div>
+                </section>
+
+                <section class="tm-mb-1 tm-row tm-services-row" id="">
+                    <div class="tm-section-2-l">
+                        <article class="tm-bg-color-6 tm-box-pad tm-mb-1">
+                            <h2 class="tm-mb-2">Raindrop Graph</h2>
+                            <iframe width="250" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/2037956/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+                        </article>
+                      </div>
+                    </div>
+                    <div class="tm-section-2-r">
+                        <img src="assets/images/Rain1.jpg" alt="Services image" class="tm-img-responsive" style="width: 810px; height: 395px;">
+                    </div>
+                    </section>
+  <!-- ***** Main Banner Area End ***** -->
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p><i class="fa fa-copyright"></i> Copyright 2023 Bantay-baha  
+          
+           | Design: <a href="#" rel="sponsored" target="_parent">IoT</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/isotope.min.js"></script>
+    <script src="assets/js/owl-carousel.js"></script>
+    <script src="assets/js/lightbox.js"></script>
+    <script src="assets/js/tabs.js"></script>
+    <script src="assets/js/video.js"></script>
+    <script src="assets/js/slick-slider.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <!-- <script src="assets/js/imagesloaded.pkgd.min.js"></script> -->
+     <!-- https://imagesloaded.desandro.com/ -->
+    <!-- <script src="assets/js/isotope.pkgd.min.js"></script> -->
+     <!-- https://isotope.metafizzy.co/ -->
+    <!-- <script src="assets/js/jquery.singlePageNav.min.js"></script> -->
+     <!-- https://github.com/ChrisWojcik/single-page-nav -->
+    <script>
+
+        // Scroll to Top button
+        var btn = $('#button');
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 300) {
+                btn.addClass('show');
+            } else {
+                btn.removeClass('show');
+            }
+        });
+
+        btn.on('click', function (e) {
+            e.preventDefault();
+            $('html, body').animate({ scrollTop: 0 }, '300');
+        });
+
+        // DOM is ready
+        $(function () {
+            // Single Page Nav
+            $('#tm-nav').singlePageNav({ speed: 600 });
+
+            // Smooth Scroll (https://css-tricks.com/snippets/jquery/smooth-scrolling/)
+            $('a[href*="#"]')
+                // Remove links that don't actually link to anything
+                .not('[href="#"]')
+                .not('[href="#0"]')
+                .click(function (event) {
+                    // On-page links
+                    if (
+                        location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '')
+                        &&
+                        location.hostname == this.hostname
+                    ) {
+                        // Figure out element to scroll to
+                        var target = $(this.hash);
+                        target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                        // Does a scroll target exist?
+                        if (target.length) {
+                            // Only prevent default if animation is actually gonna happen
+                            event.preventDefault();
+                            $('html, body').animate({
+                                scrollTop: target.offset().top
+                            }, 600, function () {
+                                // Callback after animation
+                                // Must change focus!
+                                var $target = $(target);
+                                $target.focus();
+                                if ($target.is(":focus")) { // Checking if the target was focused
+                                    return false;
+                                } else {
+                                    $target.attr('tabindex', '-1'); // Adding tabindex for elements not focusable
+                                    $target.focus(); // Set focus again
+                                };
+                            });
+                        }
+                    }
+                });
+
+            /* Isotope Gallery */
+
+            // init isotope
+            var $gallery = $(".tm-gallery").isotope({
+                itemSelector: ".tm-gallery-item",
+                layoutMode: "fitRows"
+            });
+            // layout Isotope after each image loads
+            $gallery.imagesLoaded().progress(function () {
+                $gallery.isotope("layout");
+            });
+
+            $(".filters-button-group").on("click", "a", function () {
+                var filterValue = $(this).attr("data-filter");
+                $gallery.isotope({ filter: filterValue });
+            });
+
+            $(".tabgroup > div").hide();
+            $(".tabgroup > div:first-of-type").show();
+            $(".tabs a").click(function (e) {
+                e.preventDefault();
+                var $this = $(this),
+                    tabgroup = "#" + $this.parents(".tabs").data("tabgroup"),
+                    others = $this
+                        .closest("li")
+                        .siblings()
+                        .children("a"),
+                    target = $this.attr("href");
+                others.removeClass("active");
+                $this.addClass("active");
+            });
+        });
+    </script>
+    <!-- <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .scroll-to-section').on('click', 'a', function (e) {
+          if($(e.target).hasClass('external')) {
+            return;
+          }
+          e.preventDefault();
+          $('#menu').removeClass('active');
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+    </script> -->
+    <script>
+      setInterval(function() {
+  const url = "http://localhost/web%20bantay/api.php";
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      // Do something with the data
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('There was a problem fetching the data:', error);
+    });
+}, 60000); // 1000 milliseconds = 1 second
+
+    </script>
+</body>
+</html>

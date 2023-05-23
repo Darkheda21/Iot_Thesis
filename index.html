@@ -20,9 +20,9 @@
             /********************************* Printing of Temperature *********************************/
             document.getElementById("humidity_data").innerHTML="<p>"+fetched.feeds[0].field2+" %";
             /********************************* Printing of Humidity *********************************/ 	
-            document.getElementById("water_level_data").innerHTML="<p>"+fetched.feeds[0].field3+" %";
+            document.getElementById("water_level_data").innerHTML="<p>"+fetched.feeds[0].field3+" ";
                   /********************************* Printing of Pressure *********************************/
-            document.getElementById("water_flow_data").innerHTML="<p>"+fetched.feeds[0].field4+" %";
+            document.getElementById("water_flow_data").innerHTML="<p>"+fetched.feeds[0].field4+" l/hr";
 
             document.getElementById("rain_value").innerHTML="<p>"+fetched.feeds[0].field5+" %";
       
@@ -54,29 +54,29 @@
                    temperature_status.innerHTML="No Rain";
                    temperature_holder.style.backgroundColor="#87ceeb";
                  }	
-                 else if(temperature<=2 && temperature>=0.1)
+                 else if(temperature<=10 && temperature>=0.1)
                  {
                    temperature_status.innerHTML="Weak Rain";
                    temperature_holder.style.backgroundColor="#009900";
                  }
-                   else if(temperature<=6 && temperature>=2.1)
+                   else if(temperature<=25 && temperature>=10.1)
                  {
                    temperature_status.innerHTML="Moderate Rain";
                    temperature_holder.style.backgroundColor="#8ab92d";
                  }
-                   else if(temperature<=10 && temperature>=6.1)
+                   else if(temperature<=40 && temperature>=25.1)
                  {
                    temperature_status.innerHTML="Heavy Rain";
                    temperature_holder.style.backgroundColor="#ffff1a";
                  }
-                   else if(temperature<=18 && temperature>=10.1)
+                   else if(temperature<=60 && temperature>=40.1)
                  {
                    temperature_status.innerHTML="Extreme Rain";
                    temperature_holder.style.backgroundColor="#ffa500";
                  }
-                   else if(temperature<=30 && temperature>=18.1)
+                   else if(temperature<=80 && temperature>=60.1)
                  {
-                   temperature_status.innerHTML="Shower";
+                   temperature_status.innerHTML="Major Rain";
                    temperature_holder.style.backgroundColor="#ff0000";
                  }
                    else if(temperature>=30)
@@ -163,20 +163,30 @@
                  }
       
                    /*water level Statuses */
-                 if(water_level<=39 && water_level>=0)
+                 if(water_level<=17 && water_level>=0)
+                 {
+                   water_level_status.innerHTML="Major";
+                   water_level_holder.style.backgroundColor="#ff3300";
+                 }	
+                 else if(water_level>=18 && water_level<=26)
+                 {
+                   water_level_status.innerHTML="Moderate";
+                   water_level_holder.style.backgroundColor="#ff9900";
+                 }
+                 else if(water_level>=27 && water_level<=40) 
+                 {
+                   water_level_status.innerHTML="Minor";
+                   water_level_holder.style.backgroundColor="#ffff00";
+                 }
+                 else if(water_level>=40 && water_level<=50) 
+                 {
+                   water_level_status.innerHTML="Low level";
+                   water_level_holder.style.backgroundColor="#ccff33";
+                 }
+                 else if(water_level>=50 && water_level<=68) 
                  {
                    water_level_status.innerHTML="Dry";
-                   water_level_holder.style.backgroundColor="#af1c1c";
-                 }	
-                 else if(water_level>=40 && water_level<=60)
-                 {
-                   water_level_status.innerHTML="Optimum";
-                   water_level_holder.style.backgroundColor="#066820";
-                 }
-                 else
-                 {
-                   water_level_status.innerHTML="Moist";
-                   water_level_holder.style.backgroundColor="#061b68";
+                   water_level_holder.style.backgroundColor="#ada85";
                  }
       
                   /*humidity Statuses */
@@ -244,32 +254,32 @@
                    rain_status.innerHTML="No Rain";
                    rain_holder.style.backgroundColor="#87ceeb";
                  }	
-                 else if(raindrops<=2 && raindrops>=0.1)
+                 else if(raindrops<=10&& raindrops>=0.1)
                  {
                    rain_status.innerHTML="Weak Rain";
                    rain_holder.style.backgroundColor="#009900";
                  }
-                   else if(raindrops<=6 && raindrops>=2.1)
+                   else if(raindrops<=20 && raindrops>=10.1)
                  {
                    rain_status.innerHTML="Moderate Rain";
                    rain_holder.style.backgroundColor="#8ab92d";
                  }
-                   else if(raindrops<=10 && raindrops>=6.1)
+                   else if(raindrops<=35 && raindrops>=20.1)
                  {
                    rain_status.innerHTML="Heavy Rain";
                    rain_holder.style.backgroundColor="#ffff1a";
                  }
-                   else if(raindrops<=18 && raindrops>=10.1)
+                   else if(raindrops<=65 && raindrops>=35.1)
                  {
                    rain_status.innerHTML="Extreme Rain";
                    rain_holder.style.backgroundColor="#ffa500";
                  }
-                   else if(raindrops<=30 && raindrops>=18.1)
+                   else if(raindrops<=100 && raindrops>=65.1)
                  {
-                   rain_status.innerHTML="Shower";
+                   rain_status.innerHTML="Major Rain";
                    rain_holder.style.backgroundColor="#ff0000";
                  }
-                   else if(raindrops>=30)
+                   else if(raindrops>=100)
                  {
                    rain_status.innerHTML="CloudBurst";
                    rain_holder.style.backgroundColor="#ca1cca";
@@ -324,8 +334,7 @@
         <li><a href="#section2">About</a></li>
         <li><a href="#section4">Flood</a></li>
         <!-- <li><a href="#section5">Video</a></li> -->
-        <li><a href="flood_graph.html" class="external">Flood Graph</a></li>
-        <li><a href="#section6">Contact</a></li>
+        <li><a href="flood_graph.php" class="external">Flood Graph</a></li>
       </ul>
     </nav>
   </header>
@@ -333,7 +342,7 @@
   <!-- ***** Main Banner Area Start ***** -->
   <section class="section main-banner" id="top" data-section="section1">
       <video autoplay muted loop id="bg-video">
-          <source src="assets/images/Loboc.mp4" type="video/mp4" />
+          <source src="assets/images/loboc-river.mp4" type="video/mp4" />
       </video>
 
       <div class="video-overlay header-text">
@@ -375,7 +384,7 @@
               <div class="content-hide">
                 <p>Curabitur id eros vehicula, tincidunt libero eu, lobortis mi. In mollis eros a posuere imperdiet. Donec maximus elementum ex. Cras convallis ex rhoncus, laoreet libero eu, vehicula libero.</p>
                 <p class="hidden-sm">Curabitur id eros vehicula, tincidunt libero eu, lobortis mi. In mollis eros a posuere imperdiet.</p>
-                <div class="scroll-to-section"><a href="#section3">Details</a></div>
+                <div class="scroll-to-section"><a href="Sim_Register.php">Details</a></div>
             </div>
             </div>
           </div>
@@ -456,7 +465,7 @@
     </div>
   </section>
 
-  <section class="section coming-soon" data-section="section3">
+  <!-- <section class="section coming-soon" data-section="section3">
     <div class="container">
       <div class="row">
         <div class="col-md-7 col-xs-12">
@@ -522,7 +531,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <section class="section courses" data-section="section4">
     <div class="container-fluid">
@@ -555,7 +564,7 @@
             <img src="assets/images/water level1.jpg" alt="Course #3">
             <div class="down-content">
               <h4>Water Level</h4>
-              <p id="water_level_data">10.00%</p>
+              <p id="water_level_data">10%</p>
               <div class="analysis" id="water_level_holder"><h3 class="text_analysis" id="water_level_status">Normal</h3></div>
             </div>
           </div>
@@ -564,7 +573,7 @@
             <img src="assets/images/iconwaterflow.webp" alt="Course #2">
             <div class="down-content">
               <h4>Water Flow</h4>
-              <p id="water_flow_data">10.00%</p>
+              <p id="water_flow_data">10%</p>
               <div class="analysis" id="water_flow_holder"><h5 class="text_analysis" id="water_flow_status">Normal</h5></div>
             </div>
           </div>
@@ -573,7 +582,7 @@
             <img src="assets/images/iconRaindrops.jpg" alt="">
             <div class="down-content">
               <h4>Raindrop</h4>
-              <p id="rain_value">10.00%</p>
+              <p id="rain_value">10%</p>
               <div class="analysis" id="rain_older"><h3 class="text_analysis" id="rain_status">Normal</h3></div>
             </div>
           </div>
@@ -590,7 +599,7 @@
         <div class="col-md-6 align-self-center">
           <div class="left-content">
             <span>our presentation is for you</span>
-            <h4>Watch the video to learn more <em>about flood disaster preperdness</em></h4>
+            <h4>Watch the video to learn more <em>about flood disaster preparedness</em></h4>
             <p>Floods are the most frequent type of natural disaster and occur when an overflow of water submerges land that is usually dry. 
             <br><br>Being prepared and taking mitigation measures, such as building away from floodplains and elevating homes, can reduce the risk of damage and injuries in a flood. </p>
             <div class="main-button"><a rel="nofollow" href="https://web.facebook.com/christine.m.digal" target="_parent">External URL</a></div>
@@ -610,7 +619,7 @@
     </div>
   </section>
 
-  <section class="section contact" data-section="section6">
+  <!-- <section class="section contact" data-section="section6">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -653,7 +662,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <footer>
     <div class="container">
